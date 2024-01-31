@@ -6,7 +6,7 @@
     <groupId>me.filoghost.holographicdisplays</groupId>
     <artifactId>holographicdisplays-parent</artifactId>
     <name>HolographicDisplays Parent</name>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -214,6 +214,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>holographicdisplays-nms-v1_20_r1</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>holographicdisplays-nms-v1_20_r2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>holographicdisplays-nms-v1_20_r3</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
