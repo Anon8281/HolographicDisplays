@@ -14,15 +14,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public abstract class LineTracker<T extends Viewer> {
 
-    private final Map<Player, T> viewers;
-    private final Viewers<T> iterableViewers;
+    private final ConcurrentMap<Player, T> viewers;
 
     private String positionWorldName;
     protected PositionCoordinates positionCoordinates;
@@ -32,8 +31,7 @@ public abstract class LineTracker<T extends Viewer> {
     private int lastVisibilitySettingsVersion;
 
     protected LineTracker() {
-        this.viewers = new HashMap<>();
-        this.iterableViewers = new DelegateViewers<>(viewers.values());
+        this.viewers = new ConcurrentHashMap<>();
     }
 
     protected abstract BaseHologramLine getLine();
@@ -67,7 +65,7 @@ public abstract class LineTracker<T extends Viewer> {
 
         // Then, send the changes (if any) to already tracked players
         if (sendChangesPackets && hasViewers()) {
-            sendChangesPackets(iterableViewers);
+            sendChangesPackets(new ImmutableViewers<>(viewers.values()));
         }
 
         // Finally, add/remove viewers sending them the full spawn/destroy packets
@@ -223,7 +221,7 @@ public abstract class LineTracker<T extends Viewer> {
             return;
         }
 
-        sendDestroyPackets(iterableViewers);
+        sendDestroyPackets(new ImmutableViewers<>(viewers.values()));
         viewers.clear();
     }
 
